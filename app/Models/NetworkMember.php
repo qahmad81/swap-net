@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class NetworkMember extends Model
 {
-    protected $fillable = ['network_id', 'user_id', 'status'];
+    protected $fillable = ['network_id', 'user_id', 'role'];
 
     public function network()
     {

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Network extends Model
 {
-    protected $fillable = ['owner_id', 'name', 'description', 'is_private'];
+    protected $fillable = ['owner_id', 'name', 'description', 'is_private', 'slug', 'invite_code', 'qr_data'];
 
     protected $casts = [
         'is_private' => 'boolean',
