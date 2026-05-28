@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class OfferImage extends Model
 {
-    protected $fillable = ['offer_id', 'image_url'];
+    protected $fillable = ['offer_id', 'image_path'];
 
     public function offer()
     {

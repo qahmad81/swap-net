@@ -2,11 +2,17 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Listing extends Model
 {
-    protected $fillable = ['user_id', 'category_id', 'network_id', 'title', 'description', 'type', 'status'];
+    use HasFactory;
+    protected $fillable = ['user_id', 'category_id', 'network_id', 'title', 'description', 'type', 'status', 'wanted_item', 'expires_at', 'renewed_count'];
+
+    protected $casts = [
+        'expires_at' => 'datetime',
+    ];
 
     public function user()
     {

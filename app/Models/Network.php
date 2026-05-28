@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Network extends Model
 {
+    use HasFactory;
     protected $fillable = ['owner_id', 'name', 'description', 'is_private', 'slug', 'invite_code', 'qr_data'];
 
     protected $casts = [
