@@ -6,6 +6,9 @@ use App\Http\Controllers\Api\ListingController;
 use App\Http\Controllers\Api\NetworkController;
 use App\Http\Controllers\Api\OfferController;
 use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\Api\MessageController;
+use App\Http\Controllers\Api\DeliveryController;
+use App\Http\Controllers\Api\ReviewController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/categories', [CategoryController::class, 'index']);
@@ -30,4 +33,15 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/offers/{offer}/accept', [OfferController::class, 'accept']);
     Route::post('/offers/{offer}/reject', [OfferController::class, 'reject']);
     Route::post('/offers/{offer}/withdraw', [OfferController::class, 'withdraw']);
+
+    Route::get('/messages', [MessageController::class, 'index']);
+    Route::post('/messages', [MessageController::class, 'store']);
+    Route::post('/messages/{id}/read', [MessageController::class, 'markRead']);
+
+    Route::post('/deliveries', [DeliveryController::class, 'store']);
+    Route::get('/deliveries/{id}', [DeliveryController::class, 'show']);
+    Route::put('/deliveries/{id}/status', [DeliveryController::class, 'updateStatus']);
+
+    Route::get('/users/{user_id}/reviews', [ReviewController::class, 'index']);
+    Route::post('/reviews', [ReviewController::class, 'store']);
 });

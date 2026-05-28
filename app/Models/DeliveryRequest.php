@@ -6,7 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class DeliveryRequest extends Model
 {
-    protected $fillable = ['listing_id', 'offer_id', 'network_id', 'status', 'delivery_method', 'tracking_number'];
+    protected $fillable = [
+        'listing_id', 
+        'offer_id', 
+        'requester_address', 
+        'offerer_address', 
+        'delivery_cost', 
+        'cost_bearer', 
+        'status'
+    ];
 
     public function listing()
     {
@@ -16,10 +24,5 @@ class DeliveryRequest extends Model
     public function offer()
     {
         return $this->belongsTo(Offer::class);
-    }
-
-    public function network()
-    {
-        return $this->belongsTo(Network::class);
     }
 }
