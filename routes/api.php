@@ -44,4 +44,5 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/users/{user_id}/reviews', [ReviewController::class, 'index']);
     Route::post('/reviews', [ReviewController::class, 'store']);
+    Route::post('/device-token', [ProfileController::class, 'updateDeviceToken']);
 });

@@ -9,8 +9,17 @@ use App\Models\Offer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use App\Services\NotificationService;
+
 class MessageController extends Controller
 {
+    protected $notificationService;
+
+    public function __construct(NotificationService $notificationService)
+    {
+        $this->notificationService = $notificationService;
+    }
+
     public function index(Request $request)
     {
         $request->validate([
@@ -69,6 +78,8 @@ class MessageController extends Controller
             'receiver_id' => $request->receiver_id,
             'body' => $request->body,
         ]);
+
+        $this->notificationService->notifyNewMessage($message);
 
         return response()->json($message, 201);
     }

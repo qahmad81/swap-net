@@ -25,6 +25,7 @@ class User extends Authenticatable implements FilamentUser
         'is_admin',
         'is_active',
         'locale',
+        'fcm_token',
     ];
 
     protected $hidden = [

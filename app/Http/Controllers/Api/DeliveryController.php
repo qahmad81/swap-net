@@ -10,8 +10,17 @@ use App\Models\Network;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use App\Services\NotificationService;
+
 class DeliveryController extends Controller
 {
+    protected $notificationService;
+
+    public function __construct(NotificationService $notificationService)
+    {
+        $this->notificationService = $notificationService;
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -85,6 +94,8 @@ class DeliveryController extends Controller
         }
 
         $delivery->update(['status' => $request->status]);
+
+        $this->notificationService->notifyDeliveryStatus($delivery);
 
         return response()->json($delivery);
     }

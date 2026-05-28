@@ -9,8 +9,17 @@ use App\Models\Listing;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
+use App\Services\NotificationService;
+
 class OfferController extends Controller
 {
+    protected $notificationService;
+
+    public function __construct(NotificationService $notificationService)
+    {
+        $this->notificationService = $notificationService;
+    }
+
     public function index(Request $request)
     {
         $request->validate(['listing_id' => 'required|exists:listings,id']);
@@ -58,6 +67,8 @@ class OfferController extends Controller
             }
         }
 
+        $this->notificationService->notifyNewOffer($offer);
+
         return response()->json($offer->load('images'), 201);
     }
 
@@ -79,6 +90,8 @@ class OfferController extends Controller
         if ($request->boolean('close_listing', true)) {
             $listing->update(['status' => 'closed']);
         }
+
+        $this->notificationService->notifyOfferAccepted($offer);
 
         return response()->json($offer);
     }
