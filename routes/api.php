@@ -11,38 +11,48 @@ use App\Http\Controllers\Api\DeliveryController;
 use App\Http\Controllers\Api\ReviewController;
 use Illuminate\Support\Facades\Route;
 
+// Public Endpoints
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::post('/auth/social-login', [AuthController::class, 'socialLogin']);
 
+// Protected Endpoints (Requires Sanctum Token)
 Route::middleware('auth:sanctum')->group(function () {
+    // Auth
     Route::post('/auth/logout', [AuthController::class, 'logout']);
 
+    // Profile & Device Management
     Route::get('/profile', [ProfileController::class, 'show']);
     Route::put('/profile', [ProfileController::class, 'update']);
+    Route::post('/device-token', [ProfileController::class, 'updateDeviceToken']);
 
+    // Networks & Communities
     Route::apiResource('networks', NetworkController::class);
     Route::post('/networks/join/{invite_code}', [NetworkController::class, 'join']);
     Route::delete('/networks/{network}/leave', [NetworkController::class, 'leave']);
     Route::get('/networks/{network}/members', [NetworkController::class, 'members']);
 
+    // Barter Listings
     Route::apiResource('listings', ListingController::class);
     Route::post('/listings/{listing}/close', [ListingController::class, 'close']);
     Route::post('/listings/{listing}/renew', [ListingController::class, 'renew']);
 
+    // Offers & Negotiations
     Route::apiResource('offers', OfferController::class)->except(['update']);
     Route::post('/offers/{offer}/accept', [OfferController::class, 'accept']);
     Route::post('/offers/{offer}/reject', [OfferController::class, 'reject']);
     Route::post('/offers/{offer}/withdraw', [OfferController::class, 'withdraw']);
 
+    // Messaging
     Route::get('/messages', [MessageController::class, 'index']);
     Route::post('/messages', [MessageController::class, 'store']);
     Route::post('/messages/{id}/read', [MessageController::class, 'markRead']);
 
+    // Delivery & Hand-off
     Route::post('/deliveries', [DeliveryController::class, 'store']);
     Route::get('/deliveries/{id}', [DeliveryController::class, 'show']);
     Route::put('/deliveries/{id}/status', [DeliveryController::class, 'updateStatus']);
 
+    // Reviews & Trust
     Route::get('/users/{user_id}/reviews', [ReviewController::class, 'index']);
     Route::post('/reviews', [ReviewController::class, 'store']);
-    Route::post('/device-token', [ProfileController::class, 'updateDeviceToken']);
 });
